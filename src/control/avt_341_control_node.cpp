@@ -81,8 +81,8 @@ int main(int argc, char *argv[]){
 
   auto control_sub = n->create_subscription<avt_341::msg::Int32>("avt_341/state",1,StateCallback);
 
-
-  avt_341::control::PurePursuitController controller;
+  //Check once at the begining if the vehicle is close to 0, 0
+ avt_341::control::PurePursuitController controller;
 	// Set controller parameters
 	float wheelbase, steer_angle, vehicle_speed, steering_coeff, throttle_coeff, time_to_max_brake;
   float throttle_kp, throttle_ki, throttle_kd, max_desired_lateral_g;
@@ -140,12 +140,17 @@ int main(int argc, char *argv[]){
 
   avt_341::node::Rate r(rate);
   avt_341::utils::vec2 goal;
+ // std::cout<< "Vehicle is at" << state.pose.pose.position.x << std::endl;
 
+   // if (fabs(state.pose.pose.position.x) > 1.0 || fabs(state.pose.pose.position.y) > 1.0)
+   // {
+     //       std::cout<< "Vehicle is not at 0,0, killing control node" << std::endl;
+     //       return 0;
+   // }
   while (avt_341::node::ok()){
     avt_341::msg::Twist dc;
     bool time_to_quit = false;
-
-    // tell the controller the current vehicle state
+   // tell the controller the current vehicle state
     controller.SetVehicleState(state);
 
     if (current_run_state==0){    // active running state

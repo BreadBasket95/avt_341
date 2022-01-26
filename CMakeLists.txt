@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(avt_341)
+project(zavt_341)
 
 if($ENV{ROS_DISTRO} STREQUAL "noetic")
   set(CMAKE_CXX_STANDARD 14)
